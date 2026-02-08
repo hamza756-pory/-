@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times with Iqama</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Prayer Times with Iqama</h1>
+            <div class="date-display">
+                <div id="gregorian-date"></div>
+                <div id="hijri-date"></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="location-selector">
+                <label for="city-select">Select City:</label>
+                <select id="city-select">
+                    <option value="cairo">Cairo</option>
+                    <option value="riyadh">Riyadh</option>
+                    <option value="dubai">Dubai</option>
+                    <option value="beirut">Beirut</option>
+                    <option value="baghdad">Baghdad</option>
+                    <option value="istanbul">Istanbul</option>
+                    <option value="karachi">Karachi</option>
+                    <option value="lahore">Lahore</option>
+                    <option value="kuala_lumpur">Kuala Lumpur</option>
+                    <option value="cape_town">Cape Town</option>
+                </select>
+            </div>
+
+            <div class="prayer-times-container">
+                <div class="prayer-time-item">
+                    <div class="prayer-name">Fajr</div>
+                    <div class="prayer-time" id="fajr-time">--:--</div>
+                    <div class="iqama-time" id="fajr-iqama">Iqama: --:--</div>
+                    <div class="time-left" id="fajr-countdown">--:--:--</div>
+                </div>
+
+                <div class="prayer-time-item">
+                    <div class="prayer-name">Sunrise</div>
+                    <div class="prayer-time" id="sunrise-time">--:--</div>
+                </div>
+
+                <div class="prayer-time-item">
+                    <div class="prayer-name">Dhuhr</div>
+                    <div class="prayer-time" id="dhuhr-time">--:--</div>
+                    <div class="iqama-time" id="dhuhr-iqama">Iqama: --:--</div>
+                    <div class="time-left" id="dhuhr-countdown">--:--:--</div>
+                </div>
+
+                <div class="prayer-time-item">
+                    <div class="prayer-name">Asr</div>
+                    <div class="prayer-time" id="asr-time">--:--</div>
+                    <div class="iqama-time" id="asr-iqama">Iqama: --:--</div>
+                    <div class="time-left" id="asr-countdown">--:--:--</div>
+                </div>
+
+                <div class="prayer-time-item">
+                    <div class="prayer-name">Maghrib</div>
+                    <div class="prayer-time" id="maghrib-time">--:--</div>
+                    <div class="iqama-time" id="maghrib-iqama">Iqama: --:--</div>
+                    <div class="time-left" id="maghrib-countdown">--:--:--</div>
+                </div>
+
+                <div class="prayer-time-item">
+                    <div class="prayer-name">Isha</div>
+                    <div class="prayer-time" id="isha-time">--:--</div>
+                    <div class="iqama-time" id="isha-iqama">Iqama: --:--</div>
+                    <div class="time-left" id="isha-countdown">--:--:--</div>
+                </div>
+            </div>
+
+            <div class="qibla-direction">
+                <h3>Qibla Direction</h3>
+                <div class="compass">
+                    <div class="qibla-indicator" id="qibla-indicator">🧭</div>
+                    <div class="compass-rose">
+                        <span class="north">N</span>
+                        <span class="east">E</span>
+                        <span class="south">S</span>
+                        <span class="west">W</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calculation-settings">
+                <div class="calculation-method">
+                    <label for="method-select">Calculation Method:</label>
+                    <select id="method-select">
+                        <option value="makkah">Umm Al-Qura (Makkah)</option>
+                        <option value="egyptian">Egyptian General Authority</option>
+                        <option value="karachi">University of Islamic Sciences, Karachi</option>
+                        <option value="isna">Islamic Society of North America</option>
+                        <option value="mwl">Muslim World League</option>
+                    </select>
+                </div>
+
+                <div class="juristic-method">
+                    <label for="juristic-select">Juristic Method:</label>
+                    <select id="juristic-select">
+                        <option value="shafi">Shafi'i (or Hanbali)</option>
+                        <option value="hanafi">Hanafi</option>
+                    </select>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Last updated: <span id="last-update">--:--:--</span></p>
+            <button id="refresh-btn">Refresh Times</button>
+        </footer>
+    </div>
+
+    <script src="dist/bundle.js"></script>
+</body>
+</html>
