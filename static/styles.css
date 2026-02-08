@@ -1,0 +1,231 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+    color: white;
+    min-height: 100vh;
+    direction: rtl;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #ffd700;
+}
+
+.date-display {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1.2rem;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.location-selector {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.location-selector label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+#city-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: white;
+    font-size: 1rem;
+    width: 200px;
+}
+
+.prayer-times-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.prayer-time-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.prayer-time-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.prayer-name {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #ffd700;
+}
+
+.prayer-time {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.time-left {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.qibla-direction {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.qibla-direction h3 {
+    margin-bottom: 15px;
+    color: #ffd700;
+}
+
+.compass {
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qibla-indicator {
+    font-size: 3rem;
+    position: absolute;
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.compass-rose {
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 150px;
+    height: 150px;
+}
+
+.compass-rose .north { grid-column: 2; grid-row: 1; }
+.compass-rose .east { grid-column: 3; grid-row: 2; }
+.compass-rose .south { grid-column: 2; grid-row: 3; }
+.compass-rose .west { grid-column: 1; grid-row: 2; }
+
+.additional-info {
+    display: grid;
+    gap: 20px;
+}
+
+.calculation-method, .juristic-method {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.calculation-method label, .juristic-method label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+#method-select, #juristic-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: white;
+    font-size: 1rem;
+}
+
+.footer {
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+#refresh-btn {
+    background: #ffd700;
+    color: #1a2a6c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+#refresh-btn:hover {
+    background: #ffc400;
+}
+
+/* أنيميشن للعناصر عند التحميل */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.prayer-time-item {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.prayer-time-item:nth-child(1) { animation-delay: 0.1s; }
+.prayer-time-item:nth-child(2) { animation-delay: 0.2s; }
+.prayer-time-item:nth-child(3) { animation-delay: 0.3s; }
+.prayer-time-item:nth-child(4) { animation-delay: 0.4s; }
+.prayer-time-item:nth-child(5) { animation-delay: 0.5s; }
+.prayer-time-item:nth-child(6) { animation-delay: 0.6s; }
