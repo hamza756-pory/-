@@ -9,7 +9,7 @@
 إصلاح مشاكل حقيقية: الشبكة، المساحة، الإعلانات، Copilot، والخدمات العالقة.  
 بدون منظفات ريجستري وهمية، وبدون حساب، وبدون تتبع.
 
-[تحميل ZIP + EXE](https://github.com/hamza756-pory/-/releases/latest) · [تجربة الواجهة من الجوال](https://hamza756-pory.github.io/-/) · [عرض تجريبي](https://hamza756-pory.github.io/-/app.html)
+[تحميل ZIP + EXE](https://github.com/hamza756-pory/-/releases/tag/v1.0.0) · [الملف مباشرة](https://github.com/hamza756-pory/-/raw/arena/01a0e3ce-repo/dist/Rafiq-1.0.0-windows-x64.zip) · [تجربة الواجهة](https://htmlpreview.github.io/?https://github.com/hamza756-pory/-/blob/arena/01a0e3ce-repo/docs/app.html)
 
 </div>
 
@@ -50,8 +50,9 @@ Rafiq/LICENSE.txt
 
 الواجهة تعمل في المتصفح (وضع عرض، بدون تعديل جهازك):
 
-- الموقع: بعد تفعيل GitHub Pages على مجلد `docs/`
-- الملف: [`docs/app.html`](docs/app.html)
+- [تجربة الواجهة في المتصفح](https://htmlpreview.github.io/?https://github.com/hamza756-pory/-/blob/arena/01a0e3ce-repo/docs/app.html)
+- [صفحة المنتج](https://htmlpreview.github.io/?https://github.com/hamza756-pory/-/blob/arena/01a0e3ce-repo/docs/index.html)
+- المصدر: [`docs/app.html`](docs/app.html)
 
 ## الأمان
 
