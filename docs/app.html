@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Rafiq — رفيق ويندوز</title>
+<link rel="icon" href="assets/favicon.png"/>
+<style>
+:root{
+  --bg:#0b0f12; --bg2:#10161b; --card:#161d23; --line:#243038;
+  --text:#e8eef2; --muted:#8b9aa3; --accent:#1ec8b0; --accent2:#0e8f80;
+  --warn:#f5c16c; --bad:#ff6b6b; --ok:#3dd68c; --shadow:0 18px 50px rgba(0,0,0,.35);
+  --side:268px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+  font-family:"Segoe UI Variable Text","Segoe UI","Cairo","Tahoma",sans-serif;}
+body{overflow:hidden}
+.app{display:flex;height:100%}
+.side{width:var(--side);flex-shrink:0;background:linear-gradient(180deg,#0e1418,#10181d);
+  border-inline-end:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:6px}
+.brand{display:flex;gap:12px;align-items:center;padding:8px 10px 16px}
+.brand img{width:42px;height:42px;border-radius:12px}
+.brand h1{margin:0;font-size:18px;letter-spacing:.3px}
+.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.nav{display:flex;flex-direction:column;gap:4px;flex:1;overflow:auto}
+.nav button{appearance:none;border:0;background:transparent;color:var(--text);text-align:start;
+  padding:10px 12px;border-radius:12px;cursor:pointer;display:flex;gap:10px;align-items:center;font-size:14px}
+.nav button:hover{background:#1a242b}
+.nav button.active{background:rgba(30,200,176,.14);color:var(--accent)}
+.nav svg{width:18px;height:18px;flex-shrink:0}
+.side-foot{padding:10px;color:var(--muted);font-size:11px}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.top{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;
+  border-bottom:1px solid var(--line);background:rgba(16,22,27,.9);backdrop-filter:blur(12px)}
+.chips{display:flex;gap:8px;align-items:center}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;
+  padding:6px 12px;font-size:12px;cursor:pointer}
+.chip.on{border-color:var(--accent);color:var(--accent)}
+.badge{font-size:11px;padding:4px 8px;border-radius:999px;background:#1a242b;color:var(--muted)}
+.badge.admin{color:var(--ok);background:rgba(61,214,140,.12)}
+.badge.demo{color:var(--warn);background:rgba(245,193,108,.12)}
+.content{flex:1;overflow:auto;padding:22px 24px 40px}
+h2{margin:0 0 6px;font-size:26px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+.span4{grid-column:span 4}.span6{grid-column:span 6}.span8{grid-column:span 8}.span12{grid-column:span 12}
+.k{color:var(--muted);font-size:12px}.v{font-size:22px;margin-top:6px;font-weight:650}
+.bar{height:8px;background:#0c1216;border-radius:99px;overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:40%}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+button.btn,a.btn{appearance:none;border:0;background:var(--accent);color:#04261f;font-weight:700;
+  padding:10px 14px;border-radius:12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:13px}
+button.btn.sec{background:#1c272e;color:var(--text);border:1px solid var(--line)}
+button.btn.warn{background:var(--warn);color:#2a1d00}
+button.btn.bad{background:var(--bad);color:#fff}
+button.btn:disabled{opacity:.5;cursor:not-allowed}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 12px;
+  background:#10171c;border:1px solid var(--line);border-radius:12px}
+.item b{font-weight:600}
+.toggle{width:42px;height:24px;border-radius:99px;background:#2a3338;position:relative;cursor:pointer;border:0}
+.toggle.on{background:var(--accent)}
+.toggle i{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;inset-inline-start:3px;transition:.15s}
+.toggle.on i{inset-inline-start:21px}
+.log{font-family:Consolas,ui-monospace,monospace;font-size:12px;background:#0c1216;border-radius:12px;
+  padding:12px;max-height:240px;overflow:auto;white-space:pre-wrap;color:#b7c4cb}
+.toast{position:fixed;bottom:18px;inset-inline-end:18px;background:#132026;border:1px solid var(--accent);
+  color:var(--text);padding:12px 16px;border-radius:12px;display:none;z-index:20;max-width:360px}
+.issue{padding:10px 12px;border-radius:12px;background:#1a1710;border:1px solid #3a3220;color:var(--warn);font-size:13px}
+.okish{background:#102018;border-color:#1e4;color:var(--ok)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:start}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:12px;background:#10171c}
+.hero-score{display:flex;gap:18px;align-items:center}
+.ring{width:88px;height:88px}
+.hide{display:none !important}
+@media(max-width:900px){
+  body{overflow:auto}
+  .app{flex-direction:column;height:auto;min-height:100%}
+  .side{width:100%;border:0;border-bottom:1px solid var(--line);flex-direction:row;flex-wrap:wrap}
+  .nav{flex-direction:row;flex-wrap:wrap}
+  .span4,.span6,.span8{grid-column:span 12}
+  .content{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <img alt="Rafiq" src="assets/icon.png"/>
+      <div><h1>Rafiq</h1><small id="tagline">رفيقك لإصلاح ويندوز</small></div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot" id="ver">Rafiq 1.0.0 · Windows 10/11</div>
+  </aside>
+  <section class="main">
+    <header class="top">
+      <div class="chips">
+        <span class="badge" id="modeBadge">…</span>
+        <span class="badge" id="adminBadge"></span>
+      </div>
+      <div class="chips">
+        <button class="chip" id="btnAr">عربي</button>
+        <button class="chip" id="btnEn">EN</button>
+      </div>
+    </header>
+    <div class="content" id="view"></div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const T = {
+ar:{
+ tagline:"رفيقك لإصلاح ويندوز 10 و 11",
+ nav:{dash:"لوحة المعلومات",net:"طبيب الشبكة",storage:"تنظيف المساحة",privacy:"الخصوصية",tweaks:"تخصيص ويندوز",repair:"الإصلاح السريع",startup:"برامج الإقلاع",tools:"الأدوات",about:"حول"},
+ dash:"لوحة المعلومات", dashSub:"صحة الجهاز، المساحة، والشبكة في مكان واحد.",
+ health:"مؤشر الصحة", os:"نظام التشغيل", ram:"الذاكرة", disk:"القرص C:", uptime:"وقت التشغيل", net:"الشبكة",
+ quick:"إجراءات سريعة", flush:"تفريغ DNS", clean:"تنظيف الملفات المؤقتة", explorer:"إعادة تشغيل Explorer",
+ issues:"تنبيهات", noIssues:"لا توجد مشاكل واضحة.",
+ netTitle:"طبيب الشبكة", netSub:"هذه هي المشكلة رقم واحد لتذاكر الدعم: الإنترنت موجود لكن المواقع لا تُفتح.",
+ diagnose:"تشخيص الآن", dnsFlush:"تفريغ DNS", renew:"تجديد IP", winsock:"إعادة ضبط Winsock", ipreset:"إعادة ضبط TCP/IP",
+ dns:"خادم DNS", cloudflare:"Cloudflare 1.1.1.1", google:"Google 8.8.8.8", adguard:"AdGuard", quad9:"Quad9", dhcp:"تلقائي (DHCP)",
+ adapters:"المحوّلات", tests:"نتائج الفحص",
+ stTitle:"تنظيف آمن للمساحة", stSub:"نعرض الحجم أولاً. لا نحذف ملفاتك الشخصية ولا نلمس الريجستري.",
+ scan:"فحص الآن", cleanSel:"حذف المحدد", recycle:"سلة المحذوفات", temp:"الملفات المؤقتة", updates:"ذاكرة التحديثات", do:"Delivery Optimization", thumbs:"ذاكرة الصور المصغرة", dumps:"تقارير الأعطال",
+ prTitle:"درع الخصوصية", prSub:"ويندوز 11 يضع إعلانات واقتراحات و Copilot في أماكن لا يتوقعها أحد.",
+ applyPriv:"تطبيق الحماية",
+ twTitle:"تخصيص ويندوز", twSub:"استرجع قائمة النقر اليميني الكلاسيكية وأخفِ ما لا تحتاجه.",
+ rpTitle:"إصلاح سريع", rpSub:"خدمات ويندوز التي تعلق يومياً: الصوت، الطابعة، البحث، المتجر.",
+ suTitle:"برامج الإقلاع", suSub:"كل برنامج في الإقلاع يبطئ فتح الجهاز. عطّل ما لا تحتاجه.",
+ toolsTitle:"أدوات عملية", toolsSub:"كلمات مرور الواي فاي، المنافذ المشغولة، ونقطة استعادة.",
+ wifi:"كلمات مرور الواي فاي", ports:"المنافذ المفتوحة", restore:"إنشاء نقطة استعادة", god:"فتح God Mode",
+ aboutTitle:"حول Rafiq", aboutBody:"Rafiq أداة مفتوحة المصدر لإصلاح أشهر مشاكل ويندوز 10 و 11 بدون منظفات ريجستري وهمية. كل أمر واضح ويمكن التراجع عن أغلبه من الإعدادات.",
+ demo:"وضع العرض", live:"وضع الجهاز", admin:"صلاحيات مسؤول", user:"بدون مسؤول",
+ run:"تنفيذ", ok:"تم", fail:"فشل", needAdmin:"هذا الإجراء يحتاج تشغيل البرنامج كمسؤول.",
+ confirmClean:"حذف الملفات المحددة؟ لا يشمل مستنداتك.",
+},
+en:{
+ tagline:"Your companion for Windows 10 and 11 repairs",
+ nav:{dash:"Dashboard",net:"Network doctor",storage:"Storage cleanup",privacy:"Privacy",tweaks:"Windows tweaks",repair:"Quick repair",startup:"Startup apps",tools:"Toolbox",about:"About"},
+ dash:"Dashboard", dashSub:"Health, disk, memory and network — without hunting through Settings.",
+ health:"Health score", os:"Windows", ram:"Memory", disk:"Drive C:", uptime:"Uptime", net:"Network",
+ quick:"Quick actions", flush:"Flush DNS", clean:"Clean temp files", explorer:"Restart Explorer",
+ issues:"Alerts", noIssues:"No obvious problems.",
+ netTitle:"Network doctor", netSub:"The #1 home-support ticket: Wi-Fi is connected but websites will not load.",
+ diagnose:"Run diagnosis", dnsFlush:"Flush DNS", renew:"Renew IP", winsock:"Reset Winsock", ipreset:"Reset TCP/IP",
+ dns:"DNS server", cloudflare:"Cloudflare 1.1.1.1", google:"Google 8.8.8.8", adguard:"AdGuard", quad9:"Quad9", dhcp:"Automatic (DHCP)",
+ adapters:"Adapters", tests:"Test results",
+ stTitle:"Safe storage cleanup", stSub:"We show sizes first. No personal files. No junk registry cleaner.",
+ scan:"Scan now", cleanSel:"Delete selected", recycle:"Recycle bin", temp:"Temporary files", updates:"Windows Update cache", do:"Delivery Optimization", thumbs:"Thumbnail cache", dumps:"Crash dumps",
+ prTitle:"Privacy shield", prSub:"Windows 11 quietly adds ads, suggestions and Copilot in places you did not ask for.",
+ applyPriv:"Apply protection",
+ twTitle:"Windows tweaks", twSub:"Bring back the classic right-click menu and hide the noise.",
+ rpTitle:"Quick repair", rpSub:"The services that freeze in real life: audio, printer, search, Store.",
+ suTitle:"Startup apps", suSub:"Everything that launches with Windows slows the first minutes of your day.",
+ toolsTitle:"Toolbox", toolsSub:"Saved Wi-Fi passwords, listening ports, restore point.",
+ wifi:"Wi-Fi passwords", ports:"Listening ports", restore:"Create restore point", god:"Open God Mode",
+ aboutTitle:"About Rafiq", aboutBody:"Rafiq is an open-source companion for the Windows 10/11 problems people actually hit. Every action is explicit. There is no fake registry magic.",
+ demo:"Demo mode", live:"Live PC", admin:"Administrator", user:"Standard user",
+ run:"Run", ok:"Done", fail:"Failed", needAdmin:"This action needs Rafiq to run as Administrator.",
+ confirmClean:"Delete the selected junk files? Documents are never touched.",
+}};
+
+const native = location.hostname==="127.0.0.1" || location.hostname==="localhost";
+let lang = localStorage.getItem("rafiq-lang") || ((navigator.language||"").toLowerCase().startsWith("ar")?"ar":"en");
+let S = {ok:false, demo:true, admin:false, info:null};
+
+const ICONS = {
+dash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>`,
+net:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>`,
+storage:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>`,
+privacy:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 3v6c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V6l8-3z"/></svg>`,
+tweaks:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6 6l1.5 1.5M16.5 16.5L18 18M18 6l-1.5 1.5M7.5 16.5L6 18"/></svg>`,
+repair:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a5 5 0 00-7 7L4 17l3 3 3.7-3.7a5 5 0 007-7L16 8l-1.3-1.7z"/></svg>`,
+startup:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4 14h7l-1 8 10-12h-7l0-8z"/></svg>`,
+tools:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21v-4l10-10 4 4L8 21H4zM14 7l3-3 4 4-3 3"/></svg>`,
+about:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>`
+};
+
+const PAGES = ["dash","net","storage","privacy","tweaks","repair","startup","tools","about"];
+let page = "dash";
+
+function t(k){const p=k.split("."); let o=T[lang]; for(const x of p) o=o[x]; return o;}
+function $(id){return document.getElementById(id)}
+function toast(msg){const e=$("toast"); e.textContent=msg; e.style.display="block"; setTimeout(()=>e.style.display="none",3200)}
+async function api(path, body){
+  if(!native) return demoApi(path, body);
+  const opt = body==null?{}:{method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)};
+  const r = await fetch(path, opt);
+  return await r.json();
+}
+function demoApi(path, body){
+  return new Promise(res=>setTimeout(()=>{
+    const act = body && body.action;
+    if(path==="/api/health" || path==="/api/info"){
+      res({ok:true, demo:true, admin:false, os:"Windows 11 23H2 (demo)", build:"22631", computer:"DESKTOP-RAFIQ",
+        ramTotal:16*1073741824, ramFree:5.2*1073741824, diskTotal:512*1073741824, diskFree:84*1073741824,
+        uptime: 93600, cpu:"Intel Core i7", netUp:true, dnsOk:true, pingOk:true,
+        adapters:[{name:"Wi-Fi", status:"Up", ipv4:"192.168.1.14", dns:["1.1.1.1","1.0.0.1"]}],
+        publicHint:"hidden in demo"});
+      return;
+    }
+    if(path==="/api/scan"){
+      res({ok:true, items:[
+        {id:"temp", label:t("temp"), bytes:1400*1048576, safe:true},
+        {id:"recycle", label:t("recycle"), bytes:420*1048576, safe:true},
+        {id:"updates", label:t("updates"), bytes:3100*1048576, safe:true},
+        {id:"do", label:t("do"), bytes:860*1048576, safe:true},
+        {id:"thumbs", label:t("thumbs"), bytes:190*1048576, safe:true},
+        {id:"dumps", label:t("dumps"), bytes:75*1048576, safe:true}
+      ]}); return;
+    }
+    if(path==="/api/startup"){
+      res({ok:true, items:[
+        {name:"OneDrive", loc:"HKCU Run", enabled:true},
+        {name:"Microsoft Teams", loc:"HKCU Run", enabled:true},
+        {name:"Adobe Updater", loc:"HKLM Run", enabled:true},
+        {name:"Spotify", loc:"HKCU Run", enabled:false}
+      ]}); return;
+    }
+    if(path==="/api/wifi"){
+      res({ok:true, items:[{ssid:"Home-Fiber", key:"••••••••"},{ssid:"Office-Guest", key:"••••"}]}); return;
+    }
+    if(path==="/api/ports"){
+      res({ok:true, items:[{port:443, proto:"TCP", pid:1232, name:"svchost"},{port:3000, proto:"TCP", pid:4412, name:"node"},{port:5357, proto:"TCP", pid:4, name:"System"}]}); return;
+    }
+    if(path==="/api/tweaks"){
+      res({ok:true, tweaks: defaultTweaks().map(x=>({...x, on: ["classicMenu","fileExt","adsLock","copilot"].includes(x.id)?false:x.id==="taskbarLeft"}))}); return;
+    }
+    if(path==="/api/action"){
+      res({ok:true, message: lang==="ar"?"تم في وضع العرض فقط":"Demo only — nothing changed on this device.", demo:true}); return;
+    }
+    res({ok:true, demo:true});
+  }, 280));
+}
+function fmtBytes(n){if(n==null) return "—"; const u=["B","KB","MB","GB","TB"]; let i=0,v=n; while(v>=1024&&i<u.length-1){v/=1024;i++} return v.toFixed(v>=10||i===0?0:1)+" "+u[i]}
+function fmtUp(s){s=Math.floor(s||0); const d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60); return (d?d+(lang==="ar"?"ي ":"d "):"")+h+(lang==="ar"?"س ":"h ")+m+(lang==="ar"?"د":"m")}
+function pct(used,total){if(!total) return 0; return Math.min(100, Math.round(used*100/total))}
+
+function defaultTweaks(){
+  return [
+    {id:"classicMenu", ar:"قائمة النقر اليميني الكلاسيكية (ويندوز 11)", en:"Classic right-click menu (Windows 11)"},
+    {id:"taskbarLeft", ar:"شريط المهام على اليسار", en:"Left-align the taskbar"},
+    {id:"fileExt", ar:"إظهار امتدادات الملفات", en:"Show file extensions"},
+    {id:"hiddenFiles", ar:"إظهار الملفات المخفية", en:"Show hidden files"},
+    {id:"copilot", ar:"إخفاء زر Copilot", en:"Hide Copilot button"},
+    {id:"widgets", ar:"إخفاء الأدوات (Widgets)", en:"Hide Widgets"},
+    {id:"adsLock", ar:"إيقاف إعلانات شاشة القفل", en:"Disable lock-screen ads"},
+    {id:"adsStart", ar:"إيقاف اقتراحات قائمة ابدأ", en:"Disable Start suggestions"},
+    {id:"adsSettings", ar:"إيقاف الاقتراحات في الإعدادات", en:"Disable Settings suggestions"},
+    {id:"tailored", ar:"إيقاف التجارب المخصصة", en:"Disable tailored experiences"},
+    {id:"adId", ar:"إيقاف معرّف الإعلانات", en:"Disable advertising ID"},
+    {id:"searchBing", ar:"إيقاف نتائج Bing في البحث", en:"Disable Bing in Start search"},
+    {id:"fastStartup", ar:"إيقاف الإقلاع السريع", en:"Disable Fast Startup"},
+    {id:"endTask", ar:"إنهاء المهمة من شريط المهام", en:"End task from taskbar"},
+    {id:"compact", ar:"عرض Explorer المدمج", en:"Compact File Explorer view"}
+  ];
+}
+function defaultRepairs(){
+  return [
+    {id:"explorer", ar:"إعادة تشغيل مستكشف ويندوز", en:"Restart Windows Explorer"},
+    {id:"audio", ar:"إعادة تشغيل خدمة الصوت", en:"Restart Windows Audio"},
+    {id:"spooler", ar:"إصلاح spooler الطابعة", en:"Fix Print Spooler"},
+    {id:"search", ar:"إعادة تشغيل بحث ويندوز", en:"Restart Windows Search"},
+    {id:"icons", ar:"إعادة بناء ذاكرة الأيقونات", en:"Rebuild icon cache"},
+    {id:"thumbs", ar:"مسح ذاكرة الصور المصغرة", en:"Clear thumbnail cache"},
+    {id:"wsreset", ar:"إعادة ضبط متجر Microsoft", en:"Reset Microsoft Store"},
+    {id:"flushdns", ar:"تفريغ DNS", en:"Flush DNS"}
+  ];
+}
+
+function applyChrome(){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang==="ar"?"rtl":"ltr";
+  $("tagline").textContent = t("tagline");
+  $("btnAr").classList.toggle("on", lang==="ar");
+  $("btnEn").classList.toggle("on", lang==="en");
+  $("modeBadge").textContent = (!native||S.demo)?t("demo"):t("live");
+  $("modeBadge").className = "badge "+((!native||S.demo)?"demo":"");
+  $("adminBadge").textContent = S.admin?t("admin"):t("user");
+  $("adminBadge").className = "badge "+(S.admin?"admin":"");
+  $("nav").innerHTML = PAGES.map(p=>`<button data-p="${p}" class="${p===page?"active":""}">${ICONS[p]||""}<span>${t("nav."+p)}</span></button>`).join("");
+  [...$("nav").querySelectorAll("button")].forEach(b=>b.onclick=()=>{page=b.dataset.p; render()});
+}
+
+function scoreOf(info){
+  if(!info) return 70;
+  let s=100;
+  const diskPct = pct((info.diskTotal-info.diskFree), info.diskTotal);
+  if(diskPct>92) s-=20; else if(diskPct>80) s-=10;
+  const ramPct = pct((info.ramTotal-info.ramFree), info.ramTotal);
+  if(ramPct>90) s-=10;
+  if(info.netUp===false) s-=25;
+  if(info.dnsOk===false) s-=15;
+  return Math.max(20,s);
+}
+
+function renderDash(){
+  const i=S.info||{};
+  const sc=scoreOf(i);
+  const diskPct=pct((i.diskTotal-i.diskFree), i.diskTotal);
+  const ramPct=pct((i.ramTotal-i.ramFree), i.ramTotal);
+  const issues=[];
+  if(diskPct>85) issues.push(lang==="ar"?"المساحة على القرص منخفضة — افتح التنظيف.":"Low disk space — run Storage cleanup.");
+  if(!i.netUp) issues.push(lang==="ar"?"لا يوجد اتصال شبكة.":"No network connection.");
+  if(i.dnsOk===false) issues.push(lang==="ar"?"DNS لا يعمل. جرّب التفريغ أو Cloudflare.":"DNS is failing. Try flush or Cloudflare.");
+  return `<h2>${t("dash")}</h2><p class="sub">${t("dashSub")}</p>
+  <div class="grid">
+    <div class="card span6"><div class="hero-score">
+      <svg class="ring" viewBox="0 0 80 80"><circle cx="40" cy="40" r="32" stroke="#1c272e" stroke-width="8" fill="none"/>
+      <circle cx="40" cy="40" r="32" stroke="#1ec8b0" stroke-width="8" fill="none" stroke-linecap="round"
+        stroke-dasharray="${Math.round(sc/100*201)} 201" transform="rotate(-90 40 40)"/></svg>
+      <div><div class="k">${t("health")}</div><div class="v">${sc}/100</div></div>
+    </div></div>
+    <div class="card span6"><div class="k">${t("os")}</div><div class="v" style="font-size:18px">${i.os||"—"}</div>
+      <div class="k" style="margin-top:8px">${i.computer||""} · ${i.cpu||""}</div></div>
+    <div class="card span4"><div class="k">${t("ram")}</div><div class="v">${fmtBytes(i.ramFree)} <span class="k">/ ${fmtBytes(i.ramTotal)}</span></div>
+      <div class="bar"><i style="width:${ramPct}%"></i></div></div>
+    <div class="card span4"><div class="k">${t("disk")}</div><div class="v">${fmtBytes(i.diskFree)} <span class="k">/ ${fmtBytes(i.diskTotal)}</span></div>
+      <div class="bar"><i style="width:${diskPct}%;background:${diskPct>90?"var(--bad)":"linear-gradient(90deg,var(--accent2),var(--accent))"}"></i></div></div>
+    <div class="card span4"><div class="k">${t("uptime")}</div><div class="v">${fmtUp(i.uptime)}</div>
+      <div class="k" style="margin-top:10px">${t("net")}: ${i.netUp===false?(lang==="ar"?"غير متصل":"Down"):(lang==="ar"?"متصل":"Up")}</div></div>
+    <div class="card span12"><div class="k">${t("quick")}</div>
+      <div class="actions">
+        <button class="btn" data-act="flushdns">${t("flush")}</button>
+        <button class="btn sec" data-act="clean_temp">${t("clean")}</button>
+        <button class="btn sec" data-act="explorer">${t("explorer")}</button>
+      </div></div>
+    <div class="card span12"><div class="k">${t("issues")}</div>
+      ${issues.length?issues.map(x=>`<div class="issue" style="margin-top:8px">${x}</div>`).join(""):`<div class="issue okish" style="margin-top:8px">${t("noIssues")}</div>`}
+    </div>
+  </div>`;
+}
+function renderNet(){
+  const ads=(S.info&&S.info.adapters)||[];
+  return `<h2>${t("netTitle")}</h2><p class="sub">${t("netSub")}</p>
+  <div class="grid">
+    <div class="card span12"><div class="actions">
+      <button class="btn" data-act="diagnose">${t("diagnose")}</button>
+      <button class="btn sec" data-act="flushdns">${t("dnsFlush")}</button>
+      <button class="btn sec" data-act="renew">${t("renew")}</button>
+      <button class="btn sec" data-act="winsock">${t("winsock")}</button>
+      <button class="btn sec" data-act="ipreset">${t("ipreset")}</button>
+    </div>
+    <p class="k" style="margin-top:14px">${t("dns")}</p>
+    <div class="actions">
+      <button class="btn sec" data-act="dns_cloudflare">${t("cloudflare")}</button>
+      <button class="btn sec" data-act="dns_google">${t("google")}</button>
+      <button class="btn sec" data-act="dns_adguard">${t("adguard")}</button>
+      <button class="btn sec" data-act="dns_quad9">${t("quad9")}</button>
+      <button class="btn sec" data-act="dns_dhcp">${t("dhcp")}</button>
+    </div></div>
+    <div class="card span12"><div class="k">${t("adapters")}</div>
+      ${ads.map(a=>`<div class="item" style="margin-top:8px"><div><b>${a.name}</b><div class="k">${a.status||""} · ${a.ipv4||""}</div></div><div class="k">${(a.dns||[]).join(" · ")}</div></div>`).join("")||`<p class="k">${lang==="ar"?"لا بيانات":"No adapter data"}</p>`}
+    </div>
+    <div class="card span12"><div class="k">${t("tests")}</div><div class="log" id="netlog">${lang==="ar"?"اضغط تشخيص الآن.":"Run diagnosis to test ping and DNS."}</div></div>
+  </div>`;
+}
+function renderStorage(){
+  return `<h2>${t("stTitle")}</h2><p class="sub">${t("stSub")}</p>
+  <div class="card span12"><div class="actions">
+    <button class="btn" id="scanBtn">${t("scan")}</button>
+    <button class="btn warn" id="cleanBtn">${t("cleanSel")}</button>
+  </div><div class="list" id="scanList" style="margin-top:14px"></div></div>`;
+}
+function renderPrivacy(){
+  const keys=["adsLock","adsStart","adsSettings","tailored","adId","copilot","widgets","searchBing"];
+  const tw=defaultTweaks().filter(x=>keys.includes(x.id));
+  return `<h2>${t("prTitle")}</h2><p class="sub">${t("prSub")}</p>
+  <div class="card"><div class="list" id="privList">${tw.map(x=>rowTweak(x)).join("")}</div>
+  <div class="actions"><button class="btn" data-act="privacy_pack">${t("applyPriv")}</button></div></div>`;
+}
+function rowTweak(x){
+  return `<div class="item"><div>${lang==="ar"?x.ar:x.en}</div>
+    <button class="btn sec" data-act="tweak_${x.id}">${t("run")}</button></div>`;
+}
+function renderTweaks(){
+  return `<h2>${t("twTitle")}</h2><p class="sub">${t("twSub")}</p>
+  <div class="card"><div class="list">${defaultTweaks().map(rowTweak).join("")}</div></div>`;
+}
+function renderRepair(){
+  return `<h2>${t("rpTitle")}</h2><p class="sub">${t("rpSub")}</p>
+  <div class="card"><div class="list">${defaultRepairs().map(x=>`<div class="item"><div>${lang==="ar"?x.ar:x.en}</div><button class="btn sec" data-act="${x.id}">${t("run")}</button></div>`).join("")}</div></div>`;
+}
+function renderStartup(){
+  return `<h2>${t("suTitle")}</h2><p class="sub">${t("suSub")}</p>
+  <div class="card"><div class="list" id="suList">${lang==="ar"?"جاري التحميل…":"Loading…"}</div></div>`;
+}
+function renderTools(){
+  return `<h2>${t("toolsTitle")}</h2><p class="sub">${t("toolsSub")}</p>
+  <div class="grid">
+    <div class="card span12"><div class="actions">
+      <button class="btn" data-act="wifi">${t("wifi")}</button>
+      <button class="btn sec" data-act="ports">${t("ports")}</button>
+      <button class="btn sec" data-act="restore">${t("restore")}</button>
+      <button class="btn sec" data-act="godmode">${t("god")}</button>
+    </div><div class="log" id="toollog" style="margin-top:12px"></div></div>
+  </div>`;
+}
+function renderAbout(){
+  return `<h2>${t("aboutTitle")}</h2>
+  <div class="card"><p>${t("aboutBody")}</p>
+  <p class="k">Rafiq 1.0.0 · MIT License · Windows 10 version 1809+ / Windows 11</p>
+  <p class="k">${lang==="ar"?"المصدر مفتوح. لا توجد تحليلات. لا توجد شبكة إلا localhost.":"Open source. No telemetry. The app listens on localhost only."}</p>
+  </div>`;
+}
+
+const RENDERS = {dash:renderDash, net:renderNet, storage:renderStorage, privacy:renderPrivacy, tweaks:renderTweaks, repair:renderRepair, startup:renderStartup, tools:renderTools, about:renderAbout};
+
+async function render(){
+  applyChrome();
+  $("view").innerHTML = RENDERS[page]();
+  $("view").querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>runAct(b.dataset.act,b));
+  if(page==="storage"){
+    $("scanBtn").onclick=scanStorage;
+    $("cleanBtn").onclick=cleanStorage;
+  }
+  if(page==="startup") loadStartup();
+}
+
+async function runAct(act, btn){
+  if(btn) btn.disabled=true;
+  try{
+    if(act==="diagnose"){
+      const r = await api("/api/action",{action:"diagnose"});
+      const log=$("netlog"); if(log) log.textContent = r.output || r.message || JSON.stringify(r,null,2);
+      toast(r.ok?t("ok"):t("fail")); return;
+    }
+    if(act==="wifi"||act==="ports"){
+      const r = await api(act==="wifi"?"/api/wifi":"/api/ports");
+      const log=$("toollog");
+      if(act==="wifi") log.textContent=(r.items||[]).map(x=>`${x.ssid}  ${x.key||""}`).join("\n")||"—";
+      else log.textContent=(r.items||[]).map(x=>`${x.proto} ${x.port}  pid ${x.pid}  ${x.name}`).join("\n")||"—";
+      return;
+    }
+    const r = await api("/api/action",{action:act});
+    toast((r.message|| (r.ok?t("ok"):t("fail"))));
+    if(r.output && $("toollog")) $("toollog").textContent=r.output;
+    if(r.output && $("netlog")) $("netlog").textContent=r.output;
+  }catch(e){toast(String(e))}
+  finally{if(btn) btn.disabled=false}
+}
+
+async function scanStorage(){
+  const box=$("scanList"); box.textContent=lang==="ar"?"جاري الفحص…":"Scanning…";
+  const r=await api("/api/scan");
+  window._scan=r.items||[];
+  box.innerHTML = window._scan.map((it,i)=>`<label class="check"><input type="checkbox" checked data-i="${i}"/>
+    <div style="flex:1"><b>${it.label}</b><div class="k">${it.path||""}</div></div><b>${fmtBytes(it.bytes)}</b></label>`).join("");
+}
+async function cleanStorage(){
+  if(!confirm(t("confirmClean"))) return;
+  const ids=[...document.querySelectorAll("#scanList input:checked")].map(x=>window._scan[+x.dataset.i].id);
+  const r=await api("/api/action",{action:"clean", ids});
+  toast(r.message||t("ok"));
+  scanStorage();
+}
+async function loadStartup(){
+  const r=await api("/api/startup");
+  $("suList").innerHTML=(r.items||[]).map(it=>`<div class="item"><div><b>${it.name}</b><div class="k">${it.loc||""}</div></div>
+    <button class="btn sec" data-act="startup_toggle" data-name="${it.name}">${it.enabled?(lang==="ar"?"تعطيل":"Disable"):(lang==="ar"?"تمكين":"Enable")}</button></div>`).join("")||"—";
+  $("suList").querySelectorAll("[data-act]").forEach(b=>b.onclick=async()=>{
+    await api("/api/action",{action:"startup_toggle", name:b.dataset.name});
+    loadStartup();
+  });
+}
+
+$("btnAr").onclick=()=>{lang="ar"; localStorage.setItem("rafiq-lang","ar"); render()};
+$("btnEn").onclick=()=>{lang="en"; localStorage.setItem("rafiq-lang","en"); render()};
+
+(async()=>{
+  try{ S = await api("/api/info"); }catch(e){ S={ok:false,demo:true,info:null} }
+  if(!S.info && S.os) S.info=S;
+  await render();
+})();
+</script>
+</body>
+</html>
