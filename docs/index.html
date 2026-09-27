@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Rafiq — رفيق ويندوز 10 و 11</title>
+<meta name="description" content="Rafiq is a bilingual Windows 10/11 companion that fixes DNS, junk files, ads, Copilot clutter and everyday service freezes — without fake registry cleaners."/>
+<link rel="icon" href="assets/favicon.png"/>
+<style>
+:root{--bg:#070b0d;--card:#12191e;--line:#243038;--text:#eaf2f4;--muted:#90a0a8;--accent:#1ec8b0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,rgba(30,200,176,.18),transparent),var(--bg);color:var(--text);font-family:"Segoe UI","Cairo","Tahoma",sans-serif}
+a{color:var(--accent);text-decoration:none}.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800}
+.brand img{width:40px;height:40px;border-radius:11px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding:48px 0 24px}
+h1{font-size:clamp(32px,5vw,56px);line-height:1.15;margin:0 0 12px}
+.lead{color:var(--muted);font-size:18px;line-height:1.7;margin:0 0 22px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{background:var(--accent);color:#04261f;padding:12px 18px;border-radius:12px;font-weight:800;display:inline-block}
+.btn.sec{background:transparent;color:var(--text);border:1px solid var(--line)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card h3{margin:0 0 8px;font-size:16px}.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+footer{margin-top:50px;color:var(--muted);font-size:13px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:transparent;color:var(--text);cursor:pointer}
+@media(max-width:800px){.hero,.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="brand"><img src="assets/icon.png" alt="Rafiq"/>Rafiq</div>
+  <div>
+    <button class="chip" id="ar">عربي</button>
+    <button class="chip" id="en">EN</button>
+  </div>
+</nav>
+<section class="hero">
+  <div>
+    <h1 id="h1">ويندوز يتباطأ. الشبكة تتقطع. الإعلانات تظهر في كل مكان.</h1>
+    <p class="lead" id="lead">Rafiq رفيق مفتوح المصدر لويندوز 10 و 11: يصلح DNS بضغطة، ينظّف الملفات الآمنة فقط، ويخفي Copilot والإعلانات والاقتراحات — بدون منظفات ريجستري وهمية.</p>
+    <div class="btns">
+      <a class="btn" id="dl" href="https://github.com/hamza756-pory/-/releases/latest">تحميل ZIP (يحتوي EXE)</a>
+      <a class="btn sec" href="app.html" id="demo">تجربة الواجهة من أي جهاز</a>
+    </div>
+  </div>
+  <div class="panel">
+    <img src="assets/icon.png" alt="" style="width:88px;height:88px;border-radius:22px"/>
+    <p id="panel" style="color:var(--muted);line-height:1.7">يعمل محلياً على جهازك فقط (127.0.0.1). لا حساب. لا تتبع. الواجهة عربية وإنجليزية.</p>
+  </div>
+</section>
+<div class="grid">
+  <div class="card"><h3 id="c1t">طبيب الشبكة</h3><p id="c1">تفريغ DNS، تجديد IP، إعادة Winsock/TCP، والتحويل إلى Cloudflare أو Google أو AdGuard عندما تتوقف المواقع رغم وجود الواي فاي.</p></div>
+  <div class="card"><h3 id="c2t">تنظيف آمن</h3><p id="c2">يعرض الحجم أولاً ثم يحذف المؤقتات وذاكرة التحديثات وسلة المحذوفات. لا يلمس مستنداتك.</p></div>
+  <div class="card"><h3 id="c3t">خصوصية ويندوز 11</h3><p id="c3">إيقاف إعلانات شاشة القفل، اقتراحات ابدأ، Copilot، Widgets، ومعرّف الإعلانات.</p></div>
+  <div class="card"><h3 id="c4t">إصلاح يومي</h3><p id="c4">Explorer، الصوت، الطابعة، البحث، أيقونات عالقة، ومتجر Microsoft.</p></div>
+  <div class="card"><h3 id="c5t">إقلاع أخف</h3><p id="c5">عرض برامج Run وتعطيل ما يسرّق الثواني الأولى بعد فتح الجهاز.</p></div>
+  <div class="card"><h3 id="c6t">أدوات</h3><p id="c6">كلمات مرور الواي فاي المحفوظة، المنافذ المفتوحة، ونقطة استعادة.</p></div>
+</div>
+<footer id="ft">MIT License · المصدر على GitHub · Rafiq 1.0.0</footer>
+</div>
+<script>
+const AR={h1:"ويندوز يتباطأ. الشبكة تتقطع. الإعلانات تظهر في كل مكان.",lead:"Rafiq رفيق مفتوح المصدر لويندوز 10 و 11: يصلح DNS بضغطة، ينظّف الملفات الآمنة فقط، ويخفي Copilot والإعلانات والاقتراحات — بدون منظفات ريجستري وهمية.",dl:"تحميل ZIP (يحتوي EXE)",demo:"تجربة الواجهة من أي جهاز",panel:"يعمل محلياً على جهازك فقط (127.0.0.1). لا حساب. لا تتبع. الواجهة عربية وإنجليزية.",c1t:"طبيب الشبكة",c1:"تفريغ DNS، تجديد IP، إعادة Winsock/TCP، والتحويل إلى Cloudflare أو Google أو AdGuard عندما تتوقف المواقع رغم وجود الواي فاي.",c2t:"تنظيف آمن",c2:"يعرض الحجم أولاً ثم يحذف المؤقتات وذاكرة التحديثات وسلة المحذوفات. لا يلمس مستنداتك.",c3t:"خصوصية ويندوز 11",c3:"إيقاف إعلانات شاشة القفل، اقتراحات ابدأ، Copilot، Widgets، ومعرّف الإعلانات.",c4t:"إصلاح يومي",c4:"Explorer، الصوت، الطابعة، البحث، أيقونات عالقة، ومتجر Microsoft.",c5t:"إقلاع أخف",c5:"عرض برامج Run وتعطيل ما يسرّق الثواني الأولى بعد فتح الجهاز.",c6t:"أدوات",c6:"كلمات مرور الواي فاي المحفوظة، المنافذ المفتوحة، ونقطة استعادة.",ft:"MIT License · المصدر على GitHub · Rafiq 1.0.0"};
+const EN={h1:"Windows gets slow. The network drops. Ads show up everywhere.",lead:"Rafiq is an open-source companion for Windows 10 and 11: one-click DNS repair, safe junk cleanup, and a privacy shield for Copilot and lock-screen ads — no fake registry cleaners.",dl:"Download ZIP (includes EXE)",demo:"Try the UI on any device",panel:"Runs only on this PC (127.0.0.1). No account. No telemetry. Arabic and English.",c1t:"Network doctor",c1:"Flush DNS, renew IP, reset Winsock/TCP, or switch to Cloudflare, Google, AdGuard or Quad9 when Wi-Fi is up but the web is not.",c2t:"Safe cleanup",c2:"Sizes first, then temp files, update cache and the Recycle Bin. Documents are never touched.",c3t:"Windows 11 privacy",c3:"Lock-screen ads, Start suggestions, Copilot, Widgets and the advertising ID.",c4t:"Daily repairs",c4:"Explorer, audio, printer spooler, Search, broken icons, Microsoft Store.",c5t:"Lighter boot",c5:"See Run-key startup programs and disable the ones stealing the first minutes of your day.",c6t:"Toolbox",c6:"Saved Wi-Fi passwords, listening ports, restore point.",ft:"MIT License · source on GitHub · Rafiq 1.0.0"};
+function apply(d){for (const k of Object.keys(d)){const el=document.getElementById(k); if(el) el.textContent=d[k]} document.documentElement.lang=d===AR?"ar":"en"; document.documentElement.dir=d===AR?"rtl":"ltr"}
+document.getElementById("ar").onclick=()=>apply(AR);
+document.getElementById("en").onclick=()=>apply(EN);
+</script>
+</body>
+</html>
